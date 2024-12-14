@@ -3,9 +3,9 @@ import { getMovies, voteForMovie, getMovieVotes } from "./voteApi";
 import { Film } from "@/core/film";
 import { Vote } from "@/core/vote";
 
-const MOCK_API_BASE_URL = "http://localhost:8080";
+//const MOCK_API_BASE_URL = "http://localhost:8080";
 
-//const MOCK_API_BASE_URL = "https://vote-api-eh8g.onrender.com";
+const MOCK_API_BASE_URL = "https://vote-api-eh8g.onrender.com";
 
 const MOCK_MOVIE_DTO = {
   title: "Test Movie",
