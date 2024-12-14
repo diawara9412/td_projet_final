@@ -8,7 +8,7 @@ services:
       - "3000:3000"
     environment:
       - NODE_ENV=development
-      - VOTE_API_BASE_URL=https://vote-api-eh8g.onrender.com
+      - VOTE_API_BASE_URL=http://vote-api:8080
       - PORT=3000
     depends_on:
       - vote-api
@@ -20,9 +20,28 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - PG_URL=postgresql://neondb_owner:7VtUji5ALWqJ@ep-dawn-moon-a5pt4aez.us-east-2.aws.neon.tech/neondb?sslmode=require
-    
+      - PG_URL=postgres://user:password@db:5432/mydb?sslmode=disable
+    depends_on:
+      db:
+        condition: service_healthy
 
+  db:
+    image: postgres:15
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydb
+    ports:
+      - "5433:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   docs:
     build:
