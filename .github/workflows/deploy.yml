@@ -87,6 +87,13 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: '23'
+    - name: Install dependencies for docs
+      run: npm install --legacy-peer-deps
+      working-directory: docs
+
+    - name: Build the docs site
+      run: npm run build
+      working-directory: docs
 
     - name: Build Docker image for docs
       run: docker build -t docs ./docs
@@ -99,7 +106,7 @@ jobs:
         echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
         docker tag docs $DOCKER_USERNAME/docs:latest
         docker push $DOCKER_USERNAME/docs:latest
-
+  
     - name: Deploy docs to Netlify
       uses: nwtgck/actions-netlify@v1.2.3
       with:
