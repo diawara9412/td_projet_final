@@ -10,7 +10,7 @@ Nous avons réalisé les tâches suivantes pour ce projet :
    - **web-client** : Nous avons créé un Dockerfile pour le projet `web-client` en utilisant une build multi-étapes pour optimiser la taille de l'image.
 
 2. **Configuration de Docker Compose :**
-   - Nous avons créé un fichier `docker-compose.yml` pour exécuter les applications `web-client` et `vote-api` avec une base de données PostgreSQL.
+   - Nous avons créé un fichier `docker-compose.yml` pour exécuter les applications `docs`, `web-client` et `vote-api` avec une base de données PostgreSQL.
 
 3. **Tests en local :**
    - Nous avons testé les applications en local en utilisant Docker Compose avec les liens suivants :
@@ -113,7 +113,7 @@ Pour contribuer à ce projet, suivez les étapes ci-dessous :
      ```
 
 3. **Créer une branche pour votre fonctionnalité :**
-   - Créez une nouvelle branche pour travailler sur votre fonctionnalité :
+   - Créez une nouvelle branche à partir de `develop` pour travailler sur votre fonctionnalité :
      ```sh
      git checkout develop
      git checkout -b feature/ma-fonctionnalite
@@ -133,15 +133,75 @@ Pour contribuer à ce projet, suivez les étapes ci-dessous :
      ```
    - Allez sur la page de votre dépôt forké sur GitHub et créez une Pull Request vers le dépôt original.
 
-## Problèmes rencontrés et solutions
+### Utilisation des branches `release/` et `hotfix/`
 
-Si nous avons rencontré des problèmes lors de la réalisation du projet, nous les décrivons ici et expliquons comment nous les avons résolus. Si nous sommes toujours bloqués sur certains points, nous expliquons ce que nous avons essayé et ce qui a échoué.
+#### Branches `release/` pour préparer une nouvelle version
 
----
+Les branches `release/` sont utilisées pour finaliser une nouvelle version. Elles permettent d'ajouter les derniers correctifs et tests avant de fusionner dans `main`.
 
-### Soumission du rapport
+1. **Créer une branche `release/` depuis `develop` :**
+   - Créez une branche `release/vX.Y.Z` :
+     ```sh
+     git checkout develop
+     git checkout -b release/vX.Y.Z
+     ```
 
-1. **Créer une branche feature pour le rapport :**
-   ```sh
-   git checkout develop
-   git checkout -b feature/rapport
+2. **Apporter des modifications nécessaires :**
+   - Résolvez des bugs, mettez à jour les fichiers de version, ou préparez la documentation.
+   - Commitez les modifications :
+     ```sh
+     git add .
+     git commit -m "fix: corrections pour la version vX.Y.Z"
+     ```
+
+3. **Fusionner dans `main` et marquer la version :**
+   - Fusionnez la branche `release/vX.Y.Z` dans `main` et marquez la version avec un tag :
+     ```sh
+     git checkout main
+     git merge release/vX.Y.Z
+     git tag -a vX.Y.Z -m "Release version vX.Y.Z"
+     git push origin main --tags
+     ```
+
+4. **Fusionner dans `develop` pour synchroniser les modifications :**
+   - Fusionnez la branche `release/vX.Y.Z` dans `develop` :
+     ```sh
+     git checkout develop
+     git merge release/vX.Y.Z
+     git push origin develop
+     ```
+
+#### Branches `hotfix/` pour des correctifs urgents
+
+Les branches `hotfix/` sont utilisées pour résoudre rapidement des problèmes critiques dans la branche `main`, sans attendre une nouvelle version complète.
+
+1. **Créer une branche `hotfix/` depuis `main` :**
+   - Créez une branche `hotfix/vX.Y.Z` :
+     ```sh
+     git checkout main
+     git checkout -b hotfix/vX.Y.Z
+     ```
+
+2. **Corriger les erreurs urgentes :**
+   - Apportez les correctifs nécessaires et commitez-les :
+     ```sh
+     git add .
+     git commit -m "hotfix: correction critique dans la version vX.Y.Z"
+     ```
+
+3. **Fusionner dans `main` et marquer la version corrigée :**
+   - Fusionnez la branche `hotfix/vX.Y.Z` dans `main` et marquez la version corrigée avec un tag :
+     ```sh
+     git checkout main
+     git merge hotfix/vX.Y.Z
+     git tag -a vX.Y.Z -m "Hotfix version vX.Y.Z"
+     git push origin main --tags
+     ```
+
+4. **Fusionner dans `develop` pour inclure les corrections dans la prochaine version :**
+   - Fusionnez la branche `hotfix/vX.Y.Z` dans `develop` :
+     ```sh
+     git checkout develop
+     git merge hotfix/vX.Y.Z
+     git push origin develop
+     ```
