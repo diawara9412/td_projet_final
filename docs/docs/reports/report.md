@@ -16,7 +16,7 @@ Nous avons réalisé les tâches suivantes pour ce projet :
    - Nous avons testé les applications en local en utilisant Docker Compose avec les liens suivants :
      - `docs` : [http://localhost:8081](http://localhost:8081)
      - `web-client` : [http://localhost:3000](http://localhost:3000)
-     - `vote-api` : [http://localhost:8000](http://localhost:8000)
+     - `vote-api` : [http://localhost:8080/votes](http://localhost:8080/votes)
 
 4. **Déploiement des applications :**
    - **docs** : Nous avons déployé l'application `docs` sur Netlify.
